@@ -1,21 +1,32 @@
 {
   "name": "@rbxts/react-tooltips",
   "version": "1.0.0",
-  "description": "",
+  "description": "React tooltips",
   "main": "out/init.lua",
   "scripts": {
     "build": "rbxtsc",
     "watch": "rbxtsc -w",
     "prepublishOnly": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "react",
+    "tooltips",
+    "roblox",
+    "typescript",
+    "roblox-ts"
+  ],
+  "author": "Tesmi",
+  "license": "MIT",
   "types": "out/index.d.ts",
   "files": [
     "out",
     "!**/*.tsbuildinfo"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tesmi-Develop/react-tooltips-ts"
+  },
+  "homepage": "https://github.com/SUMER9999dev/React-Tooltips",
   "publishConfig": {
     "access": "public"
   },
@@ -32,5 +43,8 @@
     "prettier": "^3.2.5",
     "roblox-ts": "^2.3.0",
     "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "@rbxts/react": "*"
   }
 }
