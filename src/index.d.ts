@@ -4,7 +4,6 @@ import TooltipProvider from "./TooltipProvider";
 import useTooltip from "./useTooltip";
 
 interface TReactTooltips {
-	ReactTooltips: { ZIndex: number };
 	Tooltip: typeof Tooltip;
 
 	Display: typeof TooltipDisplay;
