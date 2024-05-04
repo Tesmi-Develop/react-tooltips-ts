@@ -43,11 +43,13 @@ function hint(props: { position: React.Binding<UDim2> }) {
 				setState(state + 1);
 			}
 		});
+		
+		return () => connection.Disconnect()
 	}, [state]);
 
 	return <textlabel 
 		Position={props.position} 
-		Size={UDim2.fromScale(1, 1)} 
+		Size={UDim2.fromScale(0.1, 0.1)} 
 		Text={`Hello, ${state}!`} 
 	/>;
 }
