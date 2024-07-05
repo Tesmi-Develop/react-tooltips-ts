@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/react-tooltips",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "React tooltips",
   "main": "out/init.lua",
   "scripts": {
@@ -19,9 +19,9 @@
   "license": "MIT",
   "types": "out/index.d.ts",
   "files": [
-		"src",
-		"default.project.json"
-	],
+    "out",
+    "!**/*.tsbuildinfo"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Tesmi-Develop/react-tooltips-ts"
@@ -46,5 +46,8 @@
   },
   "peerDependencies": {
     "@rbxts/react": "*"
+  },
+  "dependencies": {
+    "@rbxts/react-tooltips": "^1.0.7"
   }
 }
