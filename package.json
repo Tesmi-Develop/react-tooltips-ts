@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/react-tooltips",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "React tooltips",
   "main": "out/init.lua",
   "scripts": {

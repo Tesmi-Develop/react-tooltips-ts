@@ -1,5 +1,4 @@
-local RunService = game:GetService('RunService')
-local React = require(script.Parent.Parent.react)
+local React = require(script.Parent.React)
 local Context = require(script.Parent.Context)
 
 local useSignal = require(script.Parent.useSignal)
@@ -18,6 +17,10 @@ type TooltipConfiguration = {
         tooltip: types.Tooltip
     }>
 }
+
+
+local RunService = game:GetService('RunService')
+
 
 local function useTooltip(config: TooltipConfiguration)
     local tooltip_context = React.useContext(Context)
@@ -45,7 +48,7 @@ local function useTooltip(config: TooltipConfiguration)
 
             component = config.component
         }
-    end, {})
+    end, {config.appear_delay or 0, config.follow_cursor or 'nil', config.alignment or 'nil', config.component})
 
     local update_absolute_size = React.useCallback(function(rbx: GuiBase2d)
         set_absolute_size(rbx.AbsoluteSize)
@@ -63,7 +66,7 @@ local function useTooltip(config: TooltipConfiguration)
         appear_thread.current = task.delay(tooltip.appear_delay or 0, function()
             tooltip_context.change_tooltip(tooltip)
         end)
-    end, {})
+    end, {tooltip})
 
     local mouse_leave = React.useCallback(function()
         if not is_enabled.current then
@@ -76,15 +79,19 @@ local function useTooltip(config: TooltipConfiguration)
         end
 
         tooltip_context.change_tooltip(nil)
-    end, {})
+    end, {tooltip})
 
     React.useEffect(function()
+		if is_enabled.current then
+			tooltip_context.change_tooltip(tooltip)
+		end
+
         local cleanup = tooltip_context.on_tooltip_changed(function(new_tooltip)
             is_enabled.current = new_tooltip == tooltip
         end)
 
         return cleanup
-    end, {})
+    end, {tooltip})
 
     useSignal(RunService.Heartbeat, function()
         if not is_enabled.current then
@@ -113,7 +120,7 @@ local function useTooltip(config: TooltipConfiguration)
             mouse_leave()
             return
         end
-    end)
+    end, {mouse_leave, mouse_enter})
 
     return update_absolute_position, update_absolute_size, mouse_enter, mouse_leave
 end
