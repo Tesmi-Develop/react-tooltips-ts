@@ -1,7 +1,7 @@
 import { TooltipConfiguration } from "./types";
 
-type UpdateAbsoluteSize = (rbx: GuiBase2d) => void;
-type UpdateAbsolutePosition = (rbx: GuiBase2d) => void;
+type UpdateAbsoluteSize = (rbx: GuiBase2d | Vector2) => void;
+type UpdateAbsolutePosition = (rbx: GuiBase2d | Vector2) => void;
 type MouseEnter = () => void;
 type MouseLeave = () => void;
 

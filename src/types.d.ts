@@ -1,11 +1,11 @@
 import { Binding, ComponentType } from "@rbxts/react";
 
-export type Aligment = "Right" | "Left" | "Top" | "Bottom";
+export type Alignment = "Right" | "Left" | "Top" | "Bottom";
 
 export type TooltipProps = {
 	appear_delay?: number;
 	follow_cursor?: boolean;
-	aligment?: Aligment;
+	alignment?: Alignment;
 
 	absolute_size: Binding<Vector2>;
 	absolute_position: Binding<Vector2>;

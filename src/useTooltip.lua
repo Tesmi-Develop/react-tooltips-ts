@@ -50,12 +50,12 @@ local function useTooltip(config: TooltipConfiguration)
         }
     end, {config.appear_delay or 0, config.follow_cursor or 'nil', config.alignment or 'nil', config.component})
 
-    local update_absolute_size = React.useCallback(function(rbx: GuiBase2d)
-        set_absolute_size(rbx.AbsoluteSize)
+    local update_absolute_size = React.useCallback(function(rbx: GuiBase2d | Vector2)
+        set_absolute_size(if typeof(rbx) == "Vector2" then rbx else rbx.AbsoluteSize)
     end, {})
 
-    local update_absolute_position = React.useCallback(function(rbx: GuiBase2d)
-        set_absolute_position(rbx.AbsolutePosition)
+    local update_absolute_position = React.useCallback(function(rbx: GuiBase2d | Vector2)
+        set_absolute_position(if typeof(rbx) == "Vector2" then rbx else rbx.AbsolutePosition)
     end, {})
 
     local mouse_enter = React.useCallback(function()
