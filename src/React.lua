@@ -1,4 +1,4 @@
-local Packages = script.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 
 Packages = if Packages:FindFirstChild('React') then Packages else Packages:FindFirstChild('ReactLua')
 assert(Packages, 'Failed to find packages.')
