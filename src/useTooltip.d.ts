@@ -5,8 +5,8 @@ type UpdateAbsolutePosition = (rbx: GuiBase2d | Vector2) => void;
 type MouseEnter = () => void;
 type MouseLeave = () => void;
 
-declare const useTooltip: (
-	config: TooltipConfiguration,
+declare const useTooltip: <T extends {}>(
+	config: TooltipConfiguration<T>,
 ) => LuaTuple<[UpdateAbsoluteSize, UpdateAbsolutePosition, MouseEnter, MouseLeave]>;
 
 export = useTooltip;

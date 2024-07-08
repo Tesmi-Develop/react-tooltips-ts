@@ -1,4 +1,4 @@
-local Packages = script.Parent.Parent.Parent
+local Packages = script.Parent.Parent
 
 Packages = if Packages:FindFirstChild('React') then Packages else Packages:FindFirstChild('ReactLua')
 assert(Packages, 'Failed to find packages.')
@@ -6,7 +6,9 @@ assert(Packages, 'Failed to find packages.')
 local React = Packages:FindFirstChild('React')
 assert(React, 'Failed to find react dependency.')
 
-local ReactLibrary = require(React)
+
+type ReactType = typeof(require(script.Parent.Parent.React))
+local ReactLibrary = require(React) :: ReactType
 
 export type ComponentType<T> = typeof((function()
 	local React = require(script.Parent.Parent.React)

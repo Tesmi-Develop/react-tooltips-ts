@@ -3,6 +3,9 @@ local Context = require(script.Parent.Context)
 
 local useSignal = require(script.Parent.useSignal)
 local useMouse = require(script.Parent.useMouse)
+local usePrevious = require(script.Parent.usePrevious)
+
+local DeepEqual = require(script.Parent.DeepEqual)
 
 local types = require(script.Parent.types)
 
@@ -15,11 +18,18 @@ type TooltipConfiguration = {
     component: React.ComponentType<{
         position: React.Binding<UDim2>,
         tooltip: types.Tooltip
-    }>
+    }>,
+
+	props: {[string]: any}?
 }
 
 
 local RunService = game:GetService('RunService')
+
+
+local function optional_dependency<T>(value: T?): T | 'nil'
+	return if value == nil then 'nil' else value
+end 
 
 
 local function useTooltip(config: TooltipConfiguration)
@@ -29,11 +39,14 @@ local function useTooltip(config: TooltipConfiguration)
         error('Failed to get ReactTooltips.Context, ReactTooltips.useTooltip must be used inside ReactTooltips.Provider') 
     end
 
+	assert(config.props == nil or typeof(config.props) == 'table', 'Tooltip props must be table or nil')
+
     local absolute_position, set_absolute_position = React.useBinding(Vector2.zero)
     local absolute_size, set_absolute_size = React.useBinding(Vector2.zero)
 
     local appear_thread = React.useRef((nil :: any) :: thread)
     local is_enabled = React.useRef(false)
+	local previous_props = usePrevious(config.props)
 
     local mouse = useMouse()
 
@@ -46,16 +59,28 @@ local function useTooltip(config: TooltipConfiguration)
             absolute_size = absolute_size,
             absolute_position = absolute_position,
 
-            component = config.component
-        }
-    end, {config.appear_delay or 0, config.follow_cursor or 'nil', config.alignment or 'nil', config.component})
+            component = config.component,
 
-    local update_absolute_size = React.useCallback(function(rbx: GuiBase2d | Vector2)
-        set_absolute_size(if typeof(rbx) == "Vector2" then rbx else rbx.AbsoluteSize)
+			props = config.props
+        }
+    end, {
+		optional_dependency(config.appear_delay),
+		optional_dependency(config.follow_cursor),
+		optional_dependency(config.alignment),
+		config.component,
+
+		if DeepEqual(previous_props, config.props) then
+			optional_dependency(previous_props) 
+		else 
+			optional_dependency(config.props)
+	})
+
+    local update_absolute_size = React.useCallback(function(rbx: GuiBase2d)
+        set_absolute_size(rbx.AbsoluteSize)
     end, {})
 
-    local update_absolute_position = React.useCallback(function(rbx: GuiBase2d | Vector2)
-        set_absolute_position(if typeof(rbx) == "Vector2" then rbx else rbx.AbsolutePosition)
+    local update_absolute_position = React.useCallback(function(rbx: GuiBase2d)
+        set_absolute_position(rbx.AbsolutePosition)
     end, {})
 
     local mouse_enter = React.useCallback(function()
